@@ -1,0 +1,66 @@
+const A_LOWER_VALUE = 97
+const A_UPPER_VALUE = 65
+const Z_LOWER_VALUE = 122
+const Z_UPPER_VALUE = 90
+
+// console.clear()
+export const rotationLetters = (text: string, steps: number) => {
+  let letters = text.split('')
+  if (steps > 0) {
+    steps = steps < 27 ? steps : steps % 26
+  } else {
+    steps = steps > -27 ? steps : steps % 26
+  }
+  const textRotated = letters.map((char) => {
+    //Checks if the char is a letter
+    if (!/^[a-zA-Z]$/.test(char)) return char
+
+    const letterCode = char.charCodeAt(0)
+
+    let newLetterCode = letterCode + steps
+
+    //Checks if is a lower case letter
+    if (letterCode > 96) {
+      // Case the rotation was bigger than 26
+      if (newLetterCode > Z_LOWER_VALUE) {
+        newLetterCode = newLetterCode % Z_LOWER_VALUE
+        return String.fromCharCode(A_LOWER_VALUE - 1 + newLetterCode)
+      }
+
+      if (newLetterCode < A_LOWER_VALUE) {
+        newLetterCode = A_LOWER_VALUE % newLetterCode
+        // console.log('negative', newLetterCode)
+        return String.fromCharCode(Z_LOWER_VALUE + 1 - newLetterCode)
+      }
+      // if(newLetterCode < A_LOWER_VALUE) return String.fromCharCode(A_LOWER_VALUE + (A_LOWER_VALUE % newLetterCode))
+      return String.fromCharCode(newLetterCode)
+    }
+
+    // If upper case do the sames as above but chaning the const values
+    //
+    // Case the rotation was bigger than 26
+    //
+    // console.log(newLetterCode)
+    if (newLetterCode > Z_UPPER_VALUE) {
+      return String.fromCharCode(
+        A_UPPER_VALUE - 1 + (newLetterCode % Z_UPPER_VALUE),
+      )
+    }
+    // Case the rotation was bigger than 26
+    if (newLetterCode < A_UPPER_VALUE) {
+      newLetterCode = A_UPPER_VALUE % newLetterCode
+      return String.fromCharCode(Z_UPPER_VALUE + 1 - newLetterCode)
+    }
+
+    return String.fromCharCode(newLetterCode)
+  })
+  return textRotated.join('')
+  console.log(textRotated)
+}
+
+//Cesar
+console.log(rotationLetters('abcd', 291))
+// console.log(rotationLetters('abcd', -300))
+// rotationLetters('abcd', -2)
+
+// console.log(rotationLetters('abcd@#$ABCD', 3))
